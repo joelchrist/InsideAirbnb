@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using InsideAirbnb.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using InsideAirbnb.Data;
 
 namespace InsideAirbnb.Controllers
 {
@@ -26,7 +23,7 @@ namespace InsideAirbnb.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
+             _logger.LogInformation("User logged out.");
             return RedirectToPage("/Index");
         }
     }

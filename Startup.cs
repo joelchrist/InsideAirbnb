@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using InsideAirbnb.Data;
+using InsideAirbnb.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using InsideAirbnb.Data;
-using InsideAirbnb.Services;
 
 namespace InsideAirbnb
 {
@@ -46,6 +41,8 @@ namespace InsideAirbnb
                     options.Conventions.AuthorizePage("/Account/Logout");
                 });
 
+            services.AddCors();
+
             // Register no-op EmailSender used by account confirmation and password reset during development
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             services.AddSingleton<IEmailSender, EmailSender>();
@@ -67,8 +64,11 @@ namespace InsideAirbnb
             app.UseStaticFiles();
 
             app.UseAuthentication();
+            
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod());
 
             app.UseMvc();
+
         }
     }
 }
