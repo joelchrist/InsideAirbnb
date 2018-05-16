@@ -22,4 +22,7 @@
   <ItemGroup>
     <None Include="app.yaml" CopyToOutputDirectory="Always"/>
   </ItemGroup>
+  <PropertyGroup>
+    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+  </PropertyGroup>
 </Project>
