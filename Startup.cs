@@ -3,6 +3,7 @@ using InsideAirbnb.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,6 +43,10 @@ namespace InsideAirbnb
                 });
 
             services.AddCors();
+            
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+
+            services.AddResponseCompression();
 
             // Register no-op EmailSender used by account confirmation and password reset during development
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
@@ -66,6 +71,8 @@ namespace InsideAirbnb
             app.UseAuthentication();
             
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod());
+
+            app.UseResponseCompression();
 
             app.UseMvc();
 
