@@ -16,7 +16,6 @@ namespace InsideAirbnb.Pages.City
 
         public IEnumerable<SelectListItem> Neighbourhoods;
         public int ListingAmount;
-        public IList<Listing> Listings;
 
         public IndexModel(ApplicationDbContext dbContext)
         {    
@@ -38,14 +37,6 @@ namespace InsideAirbnb.Pages.City
             var neighbourhoods = await _db.Neighbourhoods.AsNoTracking().ToListAsync();
             Neighbourhoods = neighbourhoods.Select(p => new SelectListItem() { Text = p.Name, Value = p.Name});
             ListingAmount = await GetListingAmount(Neighbourhood.Name);
-            if (Neighbourhood.Name != null)
-            {
-                Listings = await _db.Listings
-                    .Where(l => l.Neighbourhood.Equals(Neighbourhood.Name))
-                    .AsNoTracking()
-                    .ToListAsync();
-            }
-            Console.WriteLine(Neighbourhood.Name);
         }
 
 

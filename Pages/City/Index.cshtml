@@ -1,4 +1,5 @@
-﻿@page "{city}/{neighbourhood?}"
+﻿@page "{neighbourhood?}"
+@using Data
 @using Extensions
 @model IndexModel
 
@@ -11,8 +12,8 @@
     <div class="col-md-7">
         <div id='map' style='width: 100%; height: 800px;'></div>
     </div>
-    <div class="col-md-5">
-        <h2>@ViewContext.RouteData.Values["city"].ToString().FirstLetterToUpperCase()</h2>
+    <div class="col-md-5 pre-scrollable">
+        <h2>Amsterdam</h2>
         <div class="row">
             <div class="col-xs-6">
                 <form method="post">
@@ -28,18 +29,18 @@
             </div>
             <div class="col-xs-6">
                 <h1>@Model.ListingAmount</h1>
+                <small> out of <b>100.000</b> listings (80%)</small>
             </div>
+        </div>
+        <div class="row">
+            
         </div>
     </div>
 </div>
 
-
-
-<script>
-    mapboxgl.accessToken = 'pk.eyJ1Ijoiam9lbGNocmlzdCIsImEiOiJjamg5MHpud3UwMDN2MzBtcTljeHFsNHRsIn0.yN9COTx4KsT3AiwitMP_2g';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/joelchrist/cjh91253t7h872rs4afm2l9jl',
-        
-    });
-</script>
+@section Scripts {
+    <script src="~/js/city.js"></script>
+    <script>
+        CityPage.setup("@Model.Neighbourhood?.Name");
+    </script>
+}
