@@ -1,8 +1,10 @@
 using InsideAirbnb.Data;
 using InsideAirbnb.Repositories;
 using InsideAirbnb.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +36,7 @@ namespace InsideAirbnb
             {
                 googleOptions.ClientId = Configuration["Credentials:ClientId"];
                 googleOptions.ClientSecret = Configuration["Credentials:ClientSecret"];
-            });
+            }).AddCookie(options => { options.Cookie.SecurePolicy = CookieSecurePolicy.Always; });
 
             services.AddMvc()
                 .AddRazorPagesOptions(options =>
@@ -46,13 +48,13 @@ namespace InsideAirbnb
             services.AddCors();
             
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
-
+    
             services.AddResponseCompression();
 
             // Register no-op EmailSender used by account confirmation and password reset during development
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             services.AddSingleton<IEmailSender, EmailSender>();
-            services.AddTransient<ListingRepository, ListingRepository>();
+            services.AddScoped<ListingRepository, ListingRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,7 +77,7 @@ namespace InsideAirbnb
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod());
 
             app.UseResponseCompression();
-
+            
             app.UseMvc();
 
         }

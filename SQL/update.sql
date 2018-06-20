@@ -1,11 +1,12 @@
-DELETE FROM [dbo].[neighbourhoods]
-
-INSERT INTO       [dbo].[neighbourhoods] ( neighbourhood )
-  SELECT DISTINCT neighbourhood
-  FROM              [dbo].[listings]  
-  WHERE neighbourhood IS NOT NULL
-
-ALTER TABLE [dbo].[listings]
+ALTER TABLE [dbo].[summary-listings]
 ALTER COLUMN neighbourhood nvarchar(40);
 
-CREATE INDEX neighbourhood_index ON [dbo].[listings] (neighbourhood)
+CREATE INDEX neighbourhood_index ON [dbo].[summary-listings] (neighbourhood)
+
+CREATE INDEX price_index ON [dbo].[summary-listings] (price)
+
+CREATE INDEX nr_of_reviews ON [dbo].[summary-listings] (number_of_reviews)
+
+
+
+-- Security stuff

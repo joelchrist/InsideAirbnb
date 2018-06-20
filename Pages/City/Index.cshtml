@@ -15,25 +15,54 @@
     <div class="col-md-5 pre-scrollable">
         <h2>Amsterdam</h2>
         <div class="row">
-            <div class="col-xs-6">
-                <form method="post">
-                    <div class="form-group">
-                        <label for="neighbourhoods">Filter by:</label>
-                        <select class="form-control"
-                                id="neighbourhoods" 
-                                asp-for="Neighbourhood.Name"
-                                asp-items="Model.Neighbourhoods"
-                                onchange="this.form.submit()"></select>
+            <form id="filter">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="neighbourhood">Neighbourhood</label>
+                        <select name="neighbourhood" id="neighbourhood" class="form-control" asp-items="Model.Neighbourhoods" onchange="CityPage.updateMap();">
+                            <option value="">No preference</option>
+                        </select>
                     </div>
-                </form>
-            </div>
-            <div class="col-xs-6">
-                <h1>@Model.ListingAmount</h1>
-                <small> out of <b>100.000</b> listings (80%)</small>
-            </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="review">Review</label>
+                        <select name="hasReview" id="review" class="form-control" onchange="CityPage.updateMap();">
+                            <option value="">No preference</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="lowest-price">Lowest Price</label>
+                        <div class="input-group">
+                            <input type="number" name="minPrice" id="lowest-price" class="form-control"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" onclick="CityPage.updateMap();">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="highest-price">Highest Price</label>
+                        <div class="input-group">
+                            <input type="number" name="maxPrice" id="highest-price" class="form-control"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" onclick="CityPage.updateMap();">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
         </div>
         <div class="row">
-            
+
         </div>
     </div>
 </div>
@@ -41,6 +70,6 @@
 @section Scripts {
     <script src="~/js/city.js"></script>
     <script>
-        CityPage.setup("@Model.Neighbourhood?.Name");
+        CityPage.setup();
     </script>
 }

@@ -15,39 +15,24 @@ namespace InsideAirbnb.Pages.City
         private readonly ApplicationDbContext _db;
 
         public IEnumerable<SelectListItem> Neighbourhoods;
-        public int ListingAmount;
 
         public IndexModel(ApplicationDbContext dbContext)
-        {    
-            _db = dbContext;    
+        {
+            _db = dbContext;
         }
 
         public async Task OnGetAsync(string neighbourhood)
         {
             var neighbourhoods = await _db.Neighbourhoods.AsNoTracking().ToListAsync();
-            Neighbourhoods = neighbourhoods.Select(p => new SelectListItem() { Text = p.Name, Value = p.Name});
-            ListingAmount = await GetListingAmount(neighbourhood);
+            Neighbourhoods = neighbourhoods.Select(p => new SelectListItem() {Text = p.Name, Value = p.Name});
         }
-        
-        [BindProperty]
-        public Neighbourhood Neighbourhood { get; set; }
-        
+
+        [BindProperty] public Neighbourhood Neighbourhood { get; set; }
+
         public async Task OnPostAsync()
         {
             var neighbourhoods = await _db.Neighbourhoods.AsNoTracking().ToListAsync();
-            Neighbourhoods = neighbourhoods.Select(p => new SelectListItem() { Text = p.Name, Value = p.Name});
-            ListingAmount = await GetListingAmount(Neighbourhood.Name);
-        }
-
-
-        private async Task<int> GetListingAmount(string neighbourhood)
-        {
-            if (neighbourhood == null)
-            {
-                return await _db.Listings.AsNoTracking().CountAsync();
-            }
-
-            return await _db.Listings.Where(l => l.Neighbourhood.Equals(neighbourhood)).AsNoTracking().CountAsync();
+            Neighbourhoods = neighbourhoods.Select(p => new SelectListItem() {Text = p.Name, Value = p.Name});
         }
     }
 }
