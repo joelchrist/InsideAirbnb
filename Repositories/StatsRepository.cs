@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InsideAirbnb.Data;
 using InsideAirbnb.Filters;
 using InsideAirbnb.Helpers.Cache;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Extensions.Internal;
-using StackExchange.Redis;
 
 namespace InsideAirbnb.Repositories
 {

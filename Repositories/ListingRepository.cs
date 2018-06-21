@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using InsideAirbnb.Data;
 using InsideAirbnb.Filters;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace InsideAirbnb.Repositories
@@ -20,7 +16,7 @@ namespace InsideAirbnb.Repositories
 
         public IQueryable<SummaryListing> Get(Filter filter)
         {
-            var query = this._db.SummaryListings.AsNoTracking().AsQueryable();
+            var query = _db.SummaryListings.AsNoTracking().AsQueryable();
             if (filter?.Neighbourhood != null)
             {
                 query = query.Where(l => l.Neighbourhood == filter.Neighbourhood);

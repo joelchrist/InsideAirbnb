@@ -1,9 +1,8 @@
+using System.IO.Compression;
 using InsideAirbnb.Data;
-using InsideAirbnb.Helpers;
 using InsideAirbnb.Helpers.Cache;
 using InsideAirbnb.Repositories;
 using InsideAirbnb.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -54,7 +53,7 @@ namespace InsideAirbnb
 
             services.AddCors();
             
-            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
     
             services.AddResponseCompression();
 

@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using InsideAirbnb.Data;
 using InsideAirbnb.Filters;
-using Microsoft.EntityFrameworkCore;
 
 namespace InsideAirbnb.Repositories
 {
