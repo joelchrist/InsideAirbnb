@@ -15,11 +15,11 @@
     <div class="col-md-5">
         <h2>Amsterdam</h2>
         <div class="row">
-            <form id="filter" onsubmit="false">
+            <form id="filter">
                 <div class="form-group">
                     <div class="col-md-12">
                         <label for="neighbourhood">Neighbourhood</label>
-                        <select name="neighbourhood" id="neighbourhood" class="form-control" asp-items="Model.Neighbourhoods" onchange="MapLogic.updateMap();">
+                        <select name="neighbourhood" id="neighbourhood" class="form-control" asp-items="Model.Neighbourhoods" onchange="$('#filter').submit();">
                             <option value="">No preference</option>
                         </select>
                     </div>
@@ -27,7 +27,7 @@
                 <div class="form-group">
                     <div class="col-md-12">
                         <label for="review">Review</label>
-                        <select name="hasReview" id="review" class="form-control" onchange="MapLogic.updateMap();">
+                        <select name="hasReview" id="review" class="form-control" onchange="$('#filter').submit();">
                             <option value="">No preference</option>
                             <option value="true">Yes</option>
                             <option value="false">No</option>
@@ -40,7 +40,7 @@
                         <div class="input-group">
                             <input type="number" name="minPrice" id="lowest-price" class="form-control"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" onclick="MapLogic.updateMap();">
+                                <button class="btn btn-default" onclick="$('#filter').submit();">
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                 </button>
                             </span>
@@ -52,7 +52,7 @@
                         <div class="input-group">
                             <input type="number" name="maxPrice" id="highest-price" class="form-control"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" onclick="MapLogic.updateMap();">
+                                <button class="btn btn-default" onclick="$('#filter').submit();">
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                 </button>
                             </span>
@@ -61,10 +61,14 @@
                 </div>
             </form>
         </div>
-        <div class="row">
+        <div class="row pre-scrollable">
             <div class="col-md-12"> 
                 <h2>Price history (for selected or all)</h2>
-                <canvas id="myChart" width="100%" height="100%"></canvas>
+                <canvas id="priceChart" width="100%" height="60"></canvas>
+            </div>
+            <div class="col-md-12"> 
+                <h2>Room type</h2>
+                <canvas id="roomTypeChart" width="100%" height="60"></canvas>
             </div>
         </div>
     </div>
@@ -77,5 +81,8 @@
     <script>
         MapLogic.setup();
         ChartLogic.setup();
+        
+        FormLogic.addSubmitListener(MapLogic.updateMap);
+        FormLogic.addSubmitListener(ChartLogic.setup);
     </script>
 }

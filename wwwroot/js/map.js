@@ -2,11 +2,6 @@ const MapLogic = (($, mapBox) => {
     const STYLE = 'mapbox://styles/joelchrist/cjh91253t7h872rs4afm2l9jl';
     let _map = {};
     
-    $('#filter').submit(e => {
-        e.preventDefault();
-        updateMap();
-    });
-    
     //// Public 
     
     
@@ -98,8 +93,7 @@ const MapLogic = (($, mapBox) => {
         const data = await response.json();
         console.log(data);
         const html = `
-                    <img src="${data.pictureUrl}" style="max-width:250px;">
-
+                    <img src="${data.pictureUrl}" style="width:250px;">
                     <dl style='margin-bottom: 0;'>
                         <dt><a href='${data.hostUrl}'>${data.hostName}</a></dt>
                         <dd style='border-bottom: 1px #ccc solid;'>${data.hostListingsCount - 1 > 0 ? data.hostListingsCount - 1 : 'No'} other listing(s)</dd>

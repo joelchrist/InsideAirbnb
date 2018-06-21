@@ -1,4 +1,6 @@
 using InsideAirbnb.Data;
+using InsideAirbnb.Helpers;
+using InsideAirbnb.Helpers.Cache;
 using InsideAirbnb.Repositories;
 using InsideAirbnb.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -46,9 +48,9 @@ namespace InsideAirbnb
                     options.Conventions.AuthorizePage("/Account/Logout");
                 })
                 .AddJsonOptions(options =>
-                    {
-                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    });
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
 
             services.AddCors();
             
@@ -56,11 +58,19 @@ namespace InsideAirbnb
     
             services.AddResponseCompression();
 
+            services.AddDistributedRedisCache(options =>
+            {
+                options.InstanceName = "master";
+                options.Configuration = Configuration.GetConnectionString("Redis");
+            });
+
             // Register no-op EmailSender used by account confirmation and password reset during development
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<ListingRepository, ListingRepository>();
             services.AddScoped<CalendarRepository, CalendarRepository>();
+            services.AddScoped<StatsRepository, StatsRepository>();
+            services.AddScoped<ICache, RedisCache>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
