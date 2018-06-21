@@ -113,7 +113,6 @@ namespace InsideAirbnb.Data
         public Listing IdNavigation { get; set; }
         [JsonIgnore]
         public Listing InverseIdNavigation { get; set; }
-        [JsonIgnore]
         public ICollection<CalendarItem> Calendar { get; set; }
         [JsonIgnore]
         public ICollection<Review> Reviews { get; set; }

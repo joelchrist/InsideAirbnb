@@ -6,7 +6,7 @@ namespace InsideAirbnb.Pages
     {
         public void OnGet()
         {
-            var x = 1;
         }
+
     }
 }

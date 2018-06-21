@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using InsideAirbnb.Data;
+﻿using System.Threading.Tasks;
 using InsideAirbnb.Filters;
 using InsideAirbnb.Repositories;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,21 +15,18 @@ namespace InsideAirbnb.Controllers
             _listingRepository = listingRepository;
         }
         
-        
-//        [Route("api/listings/{skip?}")]
-//        public async Task<JsonResult> Index(int skip = 0)
-//        {
-//            var listings = await _listingRepository.Get(null);
-//            return Json(listings);
-//        }
-
-        //https://stackoverflow.com/questions/11862069/optional-parameters-in-asp-net-web-api
-
         [Route("api/listings/filter")]
-        public async Task<JsonResult> Filter([FromQuery] ListingFilter filter )
+        public async Task<JsonResult> Filter([FromQuery] Filter filter )
         {
-            var listings = await _listingRepository.Get(filter);
+            var listings = await _listingRepository.Get(filter).AsNoTracking().ToListAsync();
             return Json(listings);
+        }
+
+        [Route("api/listings/{id}")]
+        public async Task<JsonResult> GetById(int id)
+        {
+            var listing = await _listingRepository.GetByid(id).AsNoTracking().FirstOrDefaultAsync();
+            return Json(listing);
         }
     }
 }

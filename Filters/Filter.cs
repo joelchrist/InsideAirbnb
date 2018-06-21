@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
 
 namespace InsideAirbnb.Filters
 {
-    public class ListingFilter
+    public class Filter
     {
         [FromQuery(Name = "neighbourhood")]
         public string Neighbourhood { get; set; }

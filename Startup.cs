@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace InsideAirbnb
 {
@@ -43,7 +44,11 @@ namespace InsideAirbnb
                 {
                     options.Conventions.AuthorizeFolder("/Account/Manage");
                     options.Conventions.AuthorizePage("/Account/Logout");
-                });
+                })
+                .AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    });
 
             services.AddCors();
             
@@ -55,6 +60,7 @@ namespace InsideAirbnb
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<ListingRepository, ListingRepository>();
+            services.AddScoped<CalendarRepository, CalendarRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

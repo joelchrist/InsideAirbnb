@@ -18,7 +18,7 @@ namespace InsideAirbnb.Repositories
             this._db = db;
         }
 
-        public async Task<List<SummaryListing>> Get(ListingFilter filter)
+        public IQueryable<SummaryListing> Get(Filter filter)
         {
             var query = this._db.SummaryListings.AsNoTracking().AsQueryable();
             if (filter?.Neighbourhood != null)
@@ -41,7 +41,12 @@ namespace InsideAirbnb.Repositories
                 query = query.Where(l => l.Price <= filter.MaxPrice);
             }
 
-            return await query.AsNoTracking().ToListAsync();
+            return query;
+        }
+
+        public IQueryable<Listing> GetByid(int id)
+        {
+            return _db.Listings.Where(l => l.Id == id).Include(l => l.Calendar);
         }
     }
 }
