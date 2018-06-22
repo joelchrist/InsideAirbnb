@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using SQLitePCL;
 
 namespace InsideAirbnb
 {
@@ -38,7 +39,11 @@ namespace InsideAirbnb
             {
                 googleOptions.ClientId = Configuration["Credentials:ClientId"];
                 googleOptions.ClientSecret = Configuration["Credentials:ClientSecret"];
-            }).AddCookie(options => { options.Cookie.SecurePolicy = CookieSecurePolicy.Always; });
+            }).AddCookie(options =>
+            {
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.HttpOnly = true;
+            });
 
             services.AddMvc()
                 .AddRazorPagesOptions(options =>
@@ -62,6 +67,7 @@ namespace InsideAirbnb
                 options.InstanceName = "master";
                 options.Configuration = Configuration.GetConnectionString("Redis");
             });
+            
 
             // Register no-op EmailSender used by account confirmation and password reset during development
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
@@ -92,6 +98,12 @@ namespace InsideAirbnb
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod());
 
             app.UseResponseCompression();
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+                await next();
+            });
             
             app.UseMvc();
 
