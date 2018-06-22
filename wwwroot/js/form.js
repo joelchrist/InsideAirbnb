@@ -2,7 +2,6 @@ FormLogic = (($) => {
     
     let _listeners = [];
     
-    console.log("bitch dafuq?");
     $('#filter').submit( e => {
         _listeners.forEach(l => l());
         e.preventDefault();

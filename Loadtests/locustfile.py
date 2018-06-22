@@ -22,8 +22,13 @@ class ApiUserBehaviour(TaskSet):
 
 
     @task(1)
-    def get_price_history(self):
-        self.client.get("/api/history/price")
+    def get_stats(self):
+        self.client.get("/api/stats")
+
+    @task(1)
+    def get_stats_with_filter(self):
+        self.client.get("/api/stats?neighbourhood=Jordaan")
+
 
 class ApiUser(HttpLocust):
 
